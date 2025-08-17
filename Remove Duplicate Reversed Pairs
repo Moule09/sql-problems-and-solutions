@@ -1,0 +1,31 @@
+Problem Statement - Remove Duplicate Reversed Pairs
+
+Tables : 
+CREATE TABLE number_pairs (
+    A INT,
+    B INT
+);
+
+INSERT INTO number_pairs (A, B) VALUES
+(1, 2),
+(3, 2),
+(2, 4),
+(2, 1),
+(5, 6),
+(4, 2);
+
+Solution :
+
+SELECT 
+    t1.A, 
+    t1.B
+FROM 
+    number_pairs t1
+LEFT JOIN 
+    number_pairs t2 
+        ON t1.A = t2.B 
+       AND t1.B = t2.A
+WHERE 
+    t2.A IS NULL 
+    OR t1.A < t2.A;
+
