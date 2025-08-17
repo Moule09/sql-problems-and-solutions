@@ -29,3 +29,6 @@ WHERE
     t2.A IS NULL 
     OR t1.A < t2.A;
 
+
+Ref : https://www.youtube.com/watch?v=LJuGi0VRCA0&list=PLYUFWNUuw0fm89ZIcYHhNRTsB7RJzM1tX&index=1
+
