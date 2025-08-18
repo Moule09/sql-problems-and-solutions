@@ -1,0 +1,68 @@
+Problem Statement : 
+Table: Orders
+
++-----------------+----------+
+| Column Name     | Type     |
++-----------------+----------+
+| order_number    | int      |
+| customer_number | int      |
++-----------------+----------+
+order_number is the primary key for this table.
+This table contains information about the order ID and the customer ID.
+
+Write an SQL query to find the customer_number for the customer who has placed the largest number of orders.
+
+It is guaranteed that exactly one customer will have placed more orders than any other customer.
+
+
+Tables : 
+-- Step 1: Create the Orders1 table
+CREATE TABLE Orders1 (
+    order_number INT PRIMARY KEY,
+    customer_number INT
+);
+
+-- Step 2: Insert sample data
+INSERT INTO Orders1 (order_number, customer_number) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 3);
+
+
+
+Result table:
++-----------------+
+| customer_number |
++-----------------+
+| 3               |
++-----------------+
+
+The customer with number 3 has two orders, which is greater than either customer 1 or 2 because each of them only has one order. 
+So the result is customer_number 3.
+
+
+Solution : 
+
+WITH ass_rnk AS (
+    SELECT 
+        *, 
+        DENSE_RANK() OVER (PARTITION BY customer_number) AS rnk  
+    FROM Orders1
+),
+t_orders AS (
+    SELECT  
+        *, 
+        COUNT(rnk) AS total_count 
+    FROM ass_rnk 
+    GROUP BY customer_number 
+    ORDER BY COUNT(rnk) DESC 
+    LIMIT 1
+)
+SELECT customer_number 
+FROM t_orders;
+
+
+Ref : https://www.naukri.com/code360/problems/customer-placing-the-largest-number-of-orders_2111951?utm_source=youtube&utm_medium=affiliate&utm_campaign=sqlproblemlist_shashank
+
+
