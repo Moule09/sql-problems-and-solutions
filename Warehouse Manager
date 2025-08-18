@@ -1,0 +1,58 @@
+Problem Statement  : Write an SQL query to report, How much cubic feet of volume does the inventory occupy in each warehouse.
+
+Tables  : 
+
+CREATE TABLE Products (
+    product_id   INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    Width        INT,
+    Length       INT,
+    Height       INT
+);
+
+CREATE TABLE Warehouse (
+    name       VARCHAR(50),
+    product_id INT,
+    units      INT,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+
+-- Sample Output
+Result table:
++----------------+------------+
+| warehouse_name | volume     | 
++----------------+------------+
+| LCHouse1       | 12250      | 
+| LCHouse2       | 20250      |
+| LCHouse3       | 800        |
++----------------+------------+
+Volume of product_id = 1 (LC-TV), 5x50x40 = 10000
+Volume of product_id = 2 (LC-KeyChain), 5x5x5 = 125 
+Volume of product_id = 3 (LC-Phone), 2x10x10 = 200
+Volume of product_id = 4 (LC-T-Shirt), 4x10x20 = 800
+LCHouse1: 1 unit of LC-TV + 10 units of LC-KeyChain + 5 units of LC-Phone.
+        Total volume: 1*10000 + 10*125  + 5*200 = 12250 cubic feet
+LCHouse2: 2 units of LC-TV + 2 units of LC-KeyChain.
+        Total volume: 2*10000 + 2*125 = 20250 cubic feet
+LCHouse3: 1 unit of LC-T-Shirt.
+        Total volume: 1*800 = 800 cubic feet.
+
+
+Solution : 
+
+ SELECT 
+    w.name, 
+    SUM(w.units * (p.Width * p.Length * p.Height)) AS t_units
+FROM 
+    Warehouse w
+JOIN 
+    Products p 
+        ON w.product_id = p.product_id
+GROUP BY 
+    w.name
+ORDER BY 
+    w.name;
+
+
+
+
