@@ -1,0 +1,76 @@
+Problem Statement : 
+Find products which are exclusive to only Amazon and therefore not sold at Top Shop and Macy's. 
+Your output should include the product name, brand name, price, and rating.
+
+Tables : 
+
+-- Amazon
+CREATE TABLE innerwear_amazon_com (
+    product_name       VARCHAR(255),
+    mrp                VARCHAR(50),
+    price              VARCHAR(50),
+    pdp_url            VARCHAR(255),
+    brand_name         VARCHAR(100),
+    product_category   VARCHAR(100),
+    retailer           VARCHAR(100),
+    description        VARCHAR(255),
+    rating             FLOAT,
+    review_count       INT,
+    style_attributes   VARCHAR(255),
+    total_sizes        VARCHAR(50),
+    available_size     VARCHAR(50),
+    color              VARCHAR(50)
+);
+
+-- Macy's
+CREATE TABLE innerwear_macys_com (
+    product_name       VARCHAR(255),
+    mrp                VARCHAR(50),
+    price              VARCHAR(50),
+    pdp_url            VARCHAR(255),
+    brand_name         VARCHAR(100),
+    product_category   VARCHAR(100),
+    retailer           VARCHAR(100),
+    description        VARCHAR(255),
+    rating             FLOAT,
+    review_count       FLOAT,
+    style_attributes   VARCHAR(255),
+    total_sizes        VARCHAR(50),
+    available_size     VARCHAR(50),
+    color              VARCHAR(50)
+);
+
+-- Topshop
+CREATE TABLE innerwear_topshop_com (
+    product_name       VARCHAR(255),
+    mrp                VARCHAR(50),
+    price              VARCHAR(50),
+    pdp_url            VARCHAR(255),
+    brand_name         VARCHAR(100),
+    product_category   VARCHAR(100),
+    retailer           VARCHAR(100),
+    description        VARCHAR(255),
+    rating             FLOAT,
+    review_count       FLOAT,
+    style_attributes   VARCHAR(255),
+    total_sizes        VARCHAR(50),
+    available_size     VARCHAR(50),
+    color              VARCHAR(50)
+);
+
+
+Solution : 
+
+select 
+a.product_name a_product_name,
+a.mrp as a_mrp
+from 
+innerwear_amazon_com a
+left join innerwear_topshop_com t on a.product_name=t.product_name  and a.mrp=t.mrp
+left join innerwear_macys_com m on a.product_name=m.product_name and a.mrp=m.mrp
+where 
+t.product_name is null and m.product_name is null;
+
+
+REf : https://www.linkedin.com/posts/im-nsk_sql-activity-7262660517536702464-k2XH/?utm_source=share&utm_medium=member_desktop
+
