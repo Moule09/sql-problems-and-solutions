@@ -1,0 +1,47 @@
+Problem Statement : Find state with max and min population city 
+
+Tables : 
+
+-- Create table
+CREATE TABLE city_population (
+    state VARCHAR(50),
+    city VARCHAR(50),
+    population INT
+);
+
+-- Insert data
+INSERT INTO city_population (state, city, population) VALUES
+    ('haryana',     'ambala',     100),
+    ('haryana',     'panipat',    200),
+    ('haryana',     'gurgaon',    300),
+    ('punjab',      'amritsar',   150),
+    ('punjab',      'ludhiana',   400),
+    ('punjab',      'jalandhar',  250),
+    ('maharashtra', 'mumbai',    1000),
+    ('maharashtra', 'pune',       600),
+    ('maharashtra', 'nagpur',     300),
+    ('karnataka',   'bangalore',  900),
+    ('karnataka',   'mysore',     400),
+    ('karnataka',   'mangalore',  200);
+
+
+
+Solution : 
+
+with max_population_rnk as (
+select *,row_number() over(partition by state order by population desc) as max_pop from city_population),
+max_population as 
+(
+select state,city,1 as max_pop,NULL AS min_pop from max_population_rnk where max_pop=1),
+min_population_rnk as(
+select *,row_number() over(partition by state order by population ) as min_pop from city_population
+), 
+min_population as(
+select state,city,NULL as max_pop,1 AS min_pop from min_population_rnk where min_pop=1
+),
+pop_all as (
+select * from max_population
+union all
+select * from min_population 
+)
+select state,max(case when max_pop=1 then city end )as max_population ,max(case when min_pop=1 then city end) as min_population  from pop_all group by state;
