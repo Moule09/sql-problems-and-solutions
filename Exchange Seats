@@ -1,0 +1,40 @@
+
+Problem Statement :  Exchnange the seats of every consecutive two students 
+if it is odd number of students then don't swap the last person seat number
+
+Tables : 
+CREATE TABLE seats (
+    id INT,
+    student VARCHAR(10)
+);
+
+INSERT INTO seats (id, student) VALUES
+    (1, 'Amit'),
+    (2, 'Deepa'),
+    (3, 'Rohit'),
+    (4, 'Anjali'),
+    (5, 'Neha'),
+    (6, 'Sanjay'),
+    (7, 'Priya');
+
+
+Solution : 
+We have lot of solution : 
+
+ 1- My Solution : 
+select 
+student,IF(id_1>total_seat_counts,id,id_1) as seat_exchange 
+from 
+(select *, case when id%2=0 then id-1 else id+1 end as id_1,(select count(*) from seats) as total_seat_counts from seats) as f;
+
+
+
+Method 2 :
+We can use lag and lead window function as well (it is better)
+
+Ref :
+https://www.youtube.com/watch?v=Sq1kM3jVU68&list=PLBTZqjSKn0IfuIqbMIqzS-waofsPHMS0E&index=28
+
+
+
+
