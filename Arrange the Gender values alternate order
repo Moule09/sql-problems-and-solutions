@@ -1,0 +1,26 @@
+Problem Statement : Arrange the Gender values alternate order
+
+Tables :
+
+-- Create table
+CREATE TABLE person (
+    name VARCHAR(50),
+    gender VARCHAR(10)
+);
+
+-- Insert values
+INSERT INTO person (name, gender) VALUES
+('John', 'MALE'),
+('David', 'MALE'),
+('Michael', 'MALE'),
+('Sophia', 'FEMALE'),
+('Emma', 'FEMALE');
+
+
+Solution : 
+
+with cte as (SELECT 
+name, 
+gender,
+ROW_NUMBER() OVER (PARTITION BY gender ORDER BY name) AS rnk
+FROM person) select * from cte order by rnk,field(gender,'MALE','FEMALE');
