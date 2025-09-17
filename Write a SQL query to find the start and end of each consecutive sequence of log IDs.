@@ -1,0 +1,35 @@
+Problem Statement : Write a SQL query to find the start and end of each consecutive sequence of log IDs.
+
+Tables : 
+
+DROP TABLE IF EXISTS log;
+CREATE TABLE log (
+    log_id INT PRIMARY KEY
+);
+
+INSERT INTO log (log_id) VALUES
+(1),
+(2),
+(3),
+(7),
+(8),
+(10);
+
+Solution : 
+
+WITH cte AS (
+    SELECT 
+        log_id,
+        ROW_NUMBER() OVER (ORDER BY log_id) AS rnk,
+        log_id - ROW_NUMBER() OVER (ORDER BY log_id) AS diff
+    FROM log
+)
+SELECT 
+    MIN(log_id) AS start_id,
+    MAX(log_id) AS end_id
+FROM cte
+GROUP BY diff
+ORDER BY start_id;
+
+
+
