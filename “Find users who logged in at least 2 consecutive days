@@ -1,0 +1,37 @@
+Problem Statement :Find users who logged in at least 2 consecutive days
+
+Tables : 
+
+DROP TABLE IF EXISTS logins;
+
+CREATE TABLE logins (
+    user_name VARCHAR(50),
+    login_date DATE
+);
+INSERT INTO logins (user_name, login_date) VALUES
+('Alice', '2025-09-01'),
+('Alice', '2025-09-02'),
+('Alice', '2025-09-04'),
+
+('Bob', '2025-09-07'),
+('Bob', '2025-09-08'),
+('Bob', '2025-09-09'),
+
+('Charlie', '2025-09-10'),
+('Charlie', '2025-09-13');
+
+Solution : 
+
+WITH cte AS (
+    SELECT 
+        user_name,
+        login_date,
+        LAG(login_date) OVER (PARTITION BY user_name ORDER BY login_date) AS prev_login,
+        DATEDIFF(login_date, LAG(login_date) OVER (PARTITION BY user_name ORDER BY login_date)) AS diff
+    FROM logins
+)
+SELECT user_name
+FROM cte
+WHERE diff = 1
+GROUP BY user_name
+HAVING COUNT(*) >= 1;
