@@ -1,4 +1,4 @@
-Problem Statement : Return All the Employee whose salary same in same department
+Problem Statement : Return All the Employee whose salary is same in same department
 
 Table: 
 CREATE TABLE emp_salary
