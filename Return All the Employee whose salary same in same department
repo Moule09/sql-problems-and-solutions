@@ -21,7 +21,11 @@ VALUES(101, 'sohan', '3000', '11'),
 
 
 Solution : 
+with same_salary  as (
+select salary,dept_id from emp_salary group by salary,dept_id
+having count(*)>1)
 
-with cte as (select *  from emp_salary  where dept_id in (select dept_id from emp_salary group by dept_id having count(*)>1)),  same_salary as ( select * ,dense_rank () over(partition by dept_id order by salary) as rnk from cte order by dept_id) select * from same_salary where rnk=1;
-
-
+select
+e.* from emp_salary  e
+join same_salary s on e.dept_id=s.dept_id and e.salary=s.salary;
+ 
