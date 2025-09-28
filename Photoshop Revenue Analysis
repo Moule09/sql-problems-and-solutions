@@ -1,0 +1,43 @@
+Problem Statement : 
+For every customer that bought Photoshop, return a list of the customers, and the total spent on all the products except for Photoshop products.
+Sort your answer by customer ids in ascending order.
+
+Tables: 
+adobe_transactions Table:
+create table adobe_transactions (customer_id int, product varchar(20), revenue int);
+
+insert into adobe_transactions values( 123, 'Pro', 50), ( 123, 'Photoshop', 100),( 123, 'After Effects', 50),
+( 234, 'Illustrator', 200),( 234, 'Pro', 100);
+
+
+Solution : 
+
+with valid_cust as (select customer_id from adobe_transactions
+where product='Photoshop' group by customer_id )
+select vc.customer_id,sum(amount) as total_revenue
+from 
+adobe_transactions vc
+join valid_cust v on v.customer_id=vc.customer_id 
+where vc.product<>'Photoshop'
+group by vc.customer_id order by vc.customer_id;
+
+Approach 2 :
+in()
+or 
+Exists()
+
+Exists() approach : 
+
+select a.customer_id,sum(amount) as revenue from adobe_transactions a
+where exists (
+select 1 from adobe_transactions b where b.customer_id=a.customer_id and b.product='Photoshop')
+and a.product<>'Photoshop'
+group by a.customer_id
+order by a.customer_id;
+
+
+most interesting approach
+
+
+
+Ref : https://www.youtube.com/watch?v=TgKmfAV2pw8&list=PLBTZqjSKn0IfuIqbMIqzS-waofsPHMS0E&index=7
