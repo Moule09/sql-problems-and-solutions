@@ -1,0 +1,51 @@
+Problem Statement : 
+
+Find the room type that are searched most no of times
+output the room type alongside the number of searches for it
+If the filter  for room types has more than one room type,consider each unique room type as a seperate row
+Sort the result based on the number of searches in descending order
+
+
+Tables : 
+
+create table airbnb_searches 
+(
+user_id int,
+date_searched date,
+filter_room_types varchar(200)
+);
+delete from airbnb_searches;
+insert into airbnb_searches values
+(1,'2022-01-01','entire home,private room')
+,(2,'2022-01-02','entire home,shared room')
+,(3,'2022-01-02','private room,shared room')
+,(4,'2022-01-03','private room')
+;
+
+Sample output
++--------------+-----------+
+| room_types   | no_of_ser |
++--------------+-----------+
+| private room |         3 |
+| entire home  |         2 |
+| shared room  |         2 |
++--------------+-----------+
+
+
+Solution : 
+
+WITH CTE AS(
+SELECT 
+
+*
+FROM 
+airbnb_searches 
+JOIN JSON_TABLE(
+CONCAT('["', REPLACE(filter_room_types, ',', '","'), '"]'),
+"$[*]" COLUMNS (
+	   room_types varchar(50) PATH "$"
+	)
+) AS JT)
+SELECT room_types ,COUNT(*) as no_of_ser FROM CTE GROUP BY room_types order by no_of_ser desc;
+
+Ref : https://www.youtube.com/watch?v=PE5MZW1CxOI&list=PLBTZqjSKn0IfuIqbMIqzS-waofsPHMS0E&index=4
