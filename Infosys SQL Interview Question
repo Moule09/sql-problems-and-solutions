@@ -1,0 +1,48 @@
+
+Problem Statement : Infosys SQL Interview Question
+
+Table :
+create table input (
+id int,
+formula varchar(10),
+value int
+);
+insert into input values (1,'1+4',10),(2,'2+1',5),(3,'3-2',40),(4,'4-1',20);
+
+
+Table Data : 
+select * from input;
++------+---------+-------+
+| id   | formula | value |
++------+---------+-------+
+|    1 | 1+4     |    10 |
+|    2 | 2+1     |     5 |
+|    3 | 3-2     |    40 |
+|    4 | 4-1     |    20 |
++------+---------+-------+
+
+Sample output:
++------+---------+-------+------+
+| id   | formula | value | der  |
++------+---------+-------+------+
+|    1 | 1+4     |    10 |   30 |
+|    2 | 2+1     |     5 |   15 |
+|    3 | 3-2     |    40 |   35 |
+|    4 | 4-1     |    20 |   10 |
++------+---------+-------+------+
+4 rows in set (0.00 sec)
+
+Problem  : We have to derive a new column AS der bases on formula :
+Ex : 
+1+4 --> id=1 value + id=4 value (10 + 20 =30) 
+4-1 --> 20 -10 =30
+
+
+
+Solution : 
+My apporoach : 
+
+select * from 
+(select  i1.* ,i1.value+i2.value as sum from input i1 join input i2 where concat(i1.id,'+',i2.id)=i1.formula 
+union all
+select  i1.* ,i1.value-i2.value as sum from input i1 join input i2 where concat(i1.id,'-',i2.id)=i1.formula ) as a order by id;
