@@ -17,6 +17,16 @@ INSERT INTO flights (cid, fid, origin, Destination) VALUES ('2', 'f3', 'Mum', 'A
 INSERT INTO flights (cid, fid, origin, Destination) VALUES ('2', 'f4', 'Agra', 'Kol');
 
 
+Sample Output : 
+
++--------+-------------+
+| origin | Destination |
++--------+-------------+
+| Del    | Blr         |
+| Mum    | Kol         |
++--------+-------------+
+
+
 Solution:
 
 1 - 
