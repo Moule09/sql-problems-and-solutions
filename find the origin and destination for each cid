@@ -1,0 +1,26 @@
+Problem statement :  find the origin and destination for each cid
+
+Tables : 
+
+
+CREATE TABLE flights 
+(
+    cid VARCHAR(512),
+    fid VARCHAR(512),
+    origin VARCHAR(512),
+    Destination VARCHAR(512)
+);
+
+INSERT INTO flights (cid, fid, origin, Destination) VALUES ('1', 'f1', 'Del', 'Hyd');
+INSERT INTO flights (cid, fid, origin, Destination) VALUES ('1', 'f2', 'Hyd', 'Blr');
+INSERT INTO flights (cid, fid, origin, Destination) VALUES ('2', 'f3', 'Mum', 'Agra');
+INSERT INTO flights (cid, fid, origin, Destination) VALUES ('2', 'f4', 'Agra', 'Kol');
+
+
+Solution:
+
+1 - 
+select f.origin,f1.Destination  from flights f ,flights f1 where f.cid=f1.cid  and f.Destination=f1.origin order by f.fid;
+
+2- 
+select f.origin,f1.Destination  from flights f inner join flights f1 on f.Destination=f1.origin order by f.fid;
