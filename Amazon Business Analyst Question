@@ -2,7 +2,9 @@ Problem Statements :
 
 1- No of unique customers 
 2- For Each Customer find max and min spend 
-
+3- 
+   3.1 -Upgraded atleast once in their life time
+   3.2 -Downgraded atleast once in their life time
 
 Tables : 
 CREATE TABLE subscribers (
@@ -28,6 +30,20 @@ INSERT INTO subscribers VALUES
 (5, '2023-10-02', 799),
 (5, '2023-11-02', 799),
 (6, '2023-03-01', 499);
+
+
+Sample Output for 3 question : 
++-------------+----------+------------+
+| customer_id | upgraded | down_gared |
++-------------+----------+------------+
+|           1 | No       | Yes        |
+|           2 | No       | Yes        |
+|           3 | Yes      | No         |
+|           4 | Yes      | Yes        |
+|           5 | No       | No         |
+|           6 | No       | No         |
++-------------+----------+------------+
+
 
 
 Solution : 
