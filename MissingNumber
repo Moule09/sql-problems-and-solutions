@@ -1,0 +1,20 @@
+Problem Statement : Find Missing Numbers in a Range
+
+Tables : 
+CREATE TABLE Numbers (
+    id INT,
+    num INT
+);
+
+INSERT INTO Numbers (id, num) VALUES
+(1, 1),
+(2, 2),
+(3, 4),
+(4, 6),
+(5, 7),
+(6, 10);
+
+
+
+Solution : 
+ with recursive cte as (select min(num) as n from Numbers union all select n+1 from cte where n < (select max(num) as n from Numbers)) select ct.n as missing_number from cte ct left join Numbers n1 on ct.n=n1.num where n1.id is null;
